@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymelaef.org"
+	xmlns:sec="http://www.thymelaef.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Custom fonts for this template-->
+<link th:href="@{/vendor/fontawesome-free/css/all.min.css}"
+	rel="stylesheet" media="screen">
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+<link rel="sortcut icon" th:href="@{/img/IconePCRN.png}"
+	type="image/png">
+<!-- Custom styles for this template-->
+<link th:href="@{/meucss/css/sb-admin-2.min.css}" rel="stylesheet">
+
+<!-- Para ajustar imagem do logo -->
+<style type="text/css">
+.img2 {
+	vertical-align: middle;
+	border-style: none;
+	width: 150px;
+}
+
+.img3 {
+	vertical-align: middle;
+	border-style: none;
+	width: 65px;
+}
+
+.rotacao {
+	transform: rotate(0deg);
+}
+
+.mrg {
+	margin-left: 0rem !important;
+	margin-right: 0rem !important;
+}
+
+.butaodireita {
+	float: right;
+}
+</style>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"
+	type="text/javascript"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"
+	integrity="sha512-0XDfGxFliYJPFrideYOoxdgNIvrwGTLnmK20xZbCAvPfLGQMzHUsaqZK8ZoH+luXGRxTrS46+Aq400nCnAT0/w=="
+	crossorigin="anonymous"></script>
+<script th:src="@{/plugins/dataPicker/dataPicker-bootstrap.js}"></script>
+<script th:src="@{/plugins/moment/moment.js}"></script>
+
+
+<title>Cadastro de Equipamentos</title>
+</head>
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<div
+			class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+			style="background-image: none;" id="accordionSidebar">
+			<!-- Sidebar lateral Fragmento-->
+			<div th:insert="Fragmentos/BarraNavegacao2 :: navbar"></div>
+		</div>
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Navebar Top page Fragmento-->
+				<div th:insert="Fragmentos/BarraNavegacao2 :: navbar2"></div>
+
+				<!-- Inicio do conteudo da pagina -->
+				<div class="container-fluid">
+
+					<c th:if="${msgErro != null}">
+					<div class="alert alert-danger alert-dismissible fade show"
+						role="alert">
+						<strong><span th:text="${msgErro}"></span></strong>
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					</c>
+
+					<c th:if="${msg != null}">
+					<div class="alert alert-success alert-dismissible fade show"
+						role="alert">
+						<strong><span th:text="${msg}"></span></strong>
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					</c>
+					<h1 class="h3 mb-2 text-gray-800">Cadastro de Equipamento</h1>
+
+					<form th:action="@{/Home/Equipamento/Salvar}" method="post"
+						th:object="${equipamentoobj}" enctype="multipart/form-data">
+						<input type="hidden" name="id" class="form-control" id="inputId"
+							th:field="*{id}" readonly="readonly">
+						
+						<div class="form-row">
+							<div class="form-group col-md-4">
+								<label for="inputNome">Nome </label> <input type="text"
+									class="form-control" id="inputNome"
+									placeholder="Nome do Equipamento" name="nome"
+									th:field="*{Nome}" required="required">
+							</div>
+							<div class="form-group col-md-4">
+								<label for="setor" class="active">Setor</label> <select 
+									class="form-control" th:field="*{setor}" id="setor"
+									required="required">
+									<option value="" selected="selected">Selecione...
+									<option th:each="s : ${setores}" th:value="${s.id}"
+										th:text="${s.nome}">
+								</select>
+							</div>
+							<div class="form-group col-md-4">
+								<label for="statusEquipamento" class="active">Status
+									Equipamento</label> <select class="form-control" th:field="*{status}"
+									id="statusEquipamento" required="required">
+									<option value="" selected="selected">Selecione...
+									<option
+										th:each="r : ${T(sisint.springboot.enumerador.StatusEquipamento).getSortedValue()}"
+										th:value="${r}" th:text="${r.nome}">
+								</select>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-4">
+								<label for="tombo-equipamento">Tombo</label>
+								<div class="input-group mb-3">
+									<input type="text" class="form-control" id="inputTombo"
+										name="tombo" th:field="*{Tombo}" value=""
+										placeholder="Digite o tombo do Equipamento"
+										required="required"
+										th:onkeypress="return somenteNumeros(event)">
+									<div class="input-group-append">
+										<div class="input-group-text">
+											<a type="button" id="btn-gerartombo">Gerar Código</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group col-md-4">
+								<label for="inputNumeroSerie">Número de Série</label>
+								<div class="input-group">
+									<input type="text" class="form-control" id="inputNumeroSerie"
+										name="numeroSerie" th:field="*{NumeroSerie}" value=""
+										placeholder="Digite o N/S do equipamento" required="required">
+									<div class="input-group-append">
+										<div class="input-group-text">
+											<a type="button" id="btn-gerarns">Gerar Código</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group col-md-4">
+								<label for="tipoEquipamento" class="active">Tipo
+									Equipamento</label> <select class="form-control" th:field="*{tipo}"
+									id="tipoEquipamento" required="required">
+									<option value="" selected="selected">Selecione...
+									<option
+										th:each="r : ${T(sisint.springboot.enumerador.TipoEquipamento).getSortedValue()}"
+										th:value="${r}" th:text="${r.nome}">
+								</select>
+							</div>
+							<div class="form-group col-md-4">
+								<input type="file" name="foto" />
+							</div>							
+							<div class="form-group col-md-12">
+								<div class="mb-12">
+									<label for="exampleFormControlTextarea1" class="form-label">Descrição</label>
+									<textarea class="form-control" id="exampleFormControlTextarea1"
+										placeholder="Descricão do problema" name="descricao" rows="5"
+										th:field="*{Descricao}" required="required"></textarea>
+								</div>
+							</div>
+						</div>
+
+						<button type="submit" id="btnSalvar" class="btn btn-primary ">Cadastrar</button>
+
+					</form>
+				</div>
+			</div>
+
+			<!-- CopyRight Fragmento-->
+			<div th:insert="Fragmentos/BarraNavegacao2 :: copyrig"></div>
+
+		</div>
+	</div>
+	<!-- Scroll to Top Button + Modal logout fragmento-->
+	<div th:insert="Fragmentos/BarraNavegacao2 :: topPageModal"></div>
+
+	<script th:src="@{/js/equipamento/form.js}"></script>
+</body>
+</html>

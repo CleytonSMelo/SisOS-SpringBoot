@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymelaef.org"
+	xmlns:sec="http://www.thymelaef.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" media="screen">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link th:href="@{/meucss/css/sb-admin-2.min.css}" rel="stylesheet">
+
+    <!-- Para ajustar imagem do logo -->
+    <style type="text/css">
+    .img2{
+    vertical-align: middle;
+    border-style: none;
+    width: 150px;
+    }
+    .img3{
+    vertical-align: middle;
+    border-style: none;
+    width: 65px;
+    }
+    
+    .rotacao{
+    transform: rotate(0deg);
+    }
+    
+    .mrg{
+    margin-left: 0rem!important;
+    margin-right: 0rem!important;
+    }
+    
+    .butaodireita{
+     float: right;
+    }
+    </style>   
+    
+<title>Cadastro de Usuário</title>
+</head>
+<body id="page-top">
+     <!-- Page Wrapper -->
+     <div id="wrapper">
+     <!-- Sidebar lateral Fragmento-->
+     <div th:insert="Fragmentos/BarraNavegacao2 :: navbar"></div>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+               <!-- Navebar Top page Fragmento-->
+               <div th:insert="Fragmentos/BarraNavegacao2 :: navbar2"></div>
+               
+                <!-- Inicio do conteudo da pagina -->
+                <div class="container-fluid">
+                  <h1>Cadastro de Usuários</h1>
+
+					<form th:action="@{/Home/Usuarios/SalvarUsuario}" method="post"
+						th:object="${usuarioobj}" enctype="multipart/form-data">
+						<input type="hidden" name="id" class="form-control" id="inputId"
+							th:field="*{id}" readonly="readonly">
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="inputNome">Nome </label> <input type="text"
+									class="form-control" id="inputNome" placeholder="Nome"
+									name="nome" th:field="*{Nome}" required="required">
+							</div>
+							<div class="form-group col-md-6">
+								<label for="inputMatricula">Matricula</label> <input type="text"
+									class="form-control" id="inputPassword4"
+									placeholder="Matricula" name="matricula"
+									th:field="*{Matricula}" required="required">
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="inputLogin">Login</label> <input type="text"
+									class="form-control" id="inputLogin" placeholder="Login"
+									name="login" th:field="*{Login}" required="required">
+							</div>
+							<div class="form-group col-md-6">
+								<label for="inputSenha">Senha</label> <input type="password"
+									class="form-control" id="inputSenha"
+									placeholder="Digite uma Senha" name="senha"
+									th:value="${usuarioobj.senha}" required="required">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="inputEmail4">Email</label> <input type="email"
+								class="form-control" id="inputEmail" placeholder="Email"
+								name="email" th:field="*{Email}">
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="inputContato">Contato</label> <input type="text"
+									class="form-control" id="inputContato" placeholder="Telefone"
+									name="telefone" th:field="*{Telefone}">
+							</div>
+							<div class="form-group col-md-6">
+								<label for="role" class="active">Tipo Usuario</label> <select required="required"
+									class="form-control" th:field="*{roles}" id="role">
+									<option
+										th:each="r : ${T(sisint.springboot.enumerador.Roles).values()}"
+										th:value="${r}" th:text="${r.nome}">
+								</select>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="setor" class="active">Setor</label> <select required="required"
+									class="form-control" th:field="*{setor}" id="setor">
+									<option th:each="s : ${setores}" th:value="${s.id}"
+										th:text="${s.nome}">
+								</select>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="setor" class="active">Foto</label> <input
+									type="file" class="form-control" id="imagem" name="foto">
+							</div>
+						</div>
+
+						<button type="submit" class="btn btn-primary butaodireita">Cadastrar</button>
+					</form>
+				</div>
+            </div>
+              
+               <!-- CopyRight Fragmento-->
+               <div th:insert="Fragmentos/BarraNavegacao2 :: copyrig"></div>
+    
+   </div>
+</div>
+<!-- Scroll to Top Button + Modal logout fragmento-->
+<div th:insert="Fragmentos/BarraNavegacao2 :: topPageModal"></div>
+   
+   
+</body>
+</html>
