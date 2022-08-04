@@ -111,7 +111,7 @@
 								<label for="role" class="active">Tipo Usuario</label> <select required="required"
 									class="form-control" th:field="*{roles}" id="role">
 									<option
-										th:each="r : ${T(sisint.springboot.enumerador.Roles).values()}"
+										th:each="r : ${T(sisos.springboot.enumerador.Roles).values()}"
 										th:value="${r}" th:text="${r.nome}">
 								</select>
 							</div>

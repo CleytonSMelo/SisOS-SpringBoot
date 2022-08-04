@@ -132,7 +132,7 @@
 									id="statusEquipamento" required="required">
 									<option value="" selected="selected">Selecione...
 									<option
-										th:each="r : ${T(sisint.springboot.enumerador.StatusEquipamento).getSortedValue()}"
+										th:each="r : ${T(sisos.springboot.enumerador.StatusEquipamento).getSortedValue()}"
 										th:value="${r}" th:text="${r.nome}">
 								</select>
 							</div>
@@ -173,7 +173,7 @@
 									id="tipoEquipamento" required="required">
 									<option value="" selected="selected">Selecione...
 									<option
-										th:each="r : ${T(sisint.springboot.enumerador.TipoEquipamento).getSortedValue()}"
+										th:each="r : ${T(sisos.springboot.enumerador.TipoEquipamento).getSortedValue()}"
 										th:value="${r}" th:text="${r.nome}">
 								</select>
 							</div>
